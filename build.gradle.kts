@@ -1,5 +1,6 @@
 plugins {
     kotlin("jvm") version "1.4.10"
+    kotlin("plugin.serialization") version "1.4.10"
 }
 
 group = "org.example"
@@ -11,12 +12,11 @@ repositories {
 
 dependencies {
     implementation(kotlin("stdlib"))
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:1.0.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1")
-    implementation("com.squareup.okhttp3:okhttp:4.9.0")
     implementation("com.dampcake:bencode:1.3.1")
     implementation("io.github.microutils:kotlin-logging:2.0.3")
     implementation("ch.qos.logback:logback-classic:1.2.3")
-    implementation("commons-codec:commons-codec:1.15")
 
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.0")
     testImplementation("org.assertj:assertj-core:3.18.0")
