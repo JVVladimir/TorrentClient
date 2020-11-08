@@ -5,7 +5,5 @@ import org.junit.jupiter.api.Test
 class Test {
 
     @Test
-    fun `contest test`() {
-
-    }
+    fun `contest test`() {}
 }
