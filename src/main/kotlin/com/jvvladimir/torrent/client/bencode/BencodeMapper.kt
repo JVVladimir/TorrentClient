@@ -3,6 +3,7 @@ package com.jvvladimir.torrent.client.bencode
 import com.jvvladimir.torrent.client.model.BencodeInfo
 import com.jvvladimir.torrent.client.model.BencodeTorrent
 import com.jvvladimir.torrent.client.model.TorrentFile
+import com.jvvladimir.torrent.client.utils.DigestUtils
 
 class BencodeMapper {
 
@@ -18,15 +19,14 @@ class BencodeMapper {
         return BencodeTorrent(dict["announce"] as String, bencodeInfo)
     }
 
-    // TODO: поменять хеш-код на более уникальный (SHA-512)
     fun mapToTorrentFile(bencodeTorrent: BencodeTorrent): TorrentFile {
         val bytes = bencodeTorrent.info.pieces.encodeToByteArray()
-        val listOfArrays = mutableListOf<Int>()
+        val listOfArrays = mutableListOf<ByteArray>()
         var tempArray = ByteArray(20)
         var j = 0
         for (i in bytes.indices) {
             if (i % 20 == 0) {
-                listOfArrays.add(tempArray.hashCode())
+                listOfArrays.add(tempArray)
                 tempArray = ByteArray(20)
                 j = 0
             }
@@ -39,7 +39,7 @@ class BencodeMapper {
             length = bencodeTorrent.info.length,
             pieceLength = bencodeTorrent.info.pieceLength,
             announce = bencodeTorrent.announce,
-            generalPieceHash = listOfArrays.hashCode(),
+            generalPieceHash = DigestUtils.sha1(listOfArrays),
             pieceHashes = listOfArrays
         )
     }

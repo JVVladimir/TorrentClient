@@ -6,7 +6,7 @@ import com.jvvladimir.torrent.client.utils.FileUtils
 import com.jvvladimir.torrent.client.utils.FileUtils.toPath
 import mu.KLogging
 
-const val path = "/home/vladimir/IdeaProjects/TorrentClient/src/main/resources/test.torrent"
+const val path = "C:\\Users\\Vladimir\\IdeaProjects\\TorrentClient\\src\\main\\resources\\test.torrent"
 val log = KLogging().logger
 
 fun main() {
