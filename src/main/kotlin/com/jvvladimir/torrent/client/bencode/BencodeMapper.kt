@@ -21,6 +21,19 @@ class BencodeMapper {
 
     fun mapToTorrentFile(bencodeTorrent: BencodeTorrent): TorrentFile {
         val bytes = bencodeTorrent.info.pieces.encodeToByteArray()
+        val listOfArrays = splitPiecesBy20Parts(bytes)
+
+        return TorrentFile(
+            name = bencodeTorrent.info.name,
+            length = bencodeTorrent.info.length,
+            pieceLength = bencodeTorrent.info.pieceLength,
+            announce = bencodeTorrent.announce,
+            generalPieceHash = DigestUtils.sha1(listOfArrays),
+            pieceHashes = listOfArrays
+        )
+    }
+
+    private fun splitPiecesBy20Parts(bytes: ByteArray): MutableList<ByteArray> {
         val listOfArrays = mutableListOf<ByteArray>()
         var tempArray = ByteArray(20)
         var j = 0
@@ -33,14 +46,6 @@ class BencodeMapper {
             tempArray[j] = bytes[i]
             j++
         }
-
-        return TorrentFile(
-            name = bencodeTorrent.info.name,
-            length = bencodeTorrent.info.length,
-            pieceLength = bencodeTorrent.info.pieceLength,
-            announce = bencodeTorrent.announce,
-            generalPieceHash = DigestUtils.sha1(listOfArrays),
-            pieceHashes = listOfArrays
-        )
+        return listOfArrays
     }
 }
